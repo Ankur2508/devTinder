@@ -1,4 +1,4 @@
-const express=require("express");
+/*const express=require("express");
 
 const app=express();
 
@@ -16,6 +16,43 @@ app.post("/how",(req,res)=>{
     console.log(req.query);
     res.send("how are you?")
 });
+
+app.listen(3000,()=>{
+    console.log("server is listening on port 3000");
+});
+*/
+
+const express=require("express");
+
+const app=express();
+
+app.use("/user",
+    (req,res,next)=>{
+    console.log("middleware 1");
+    next();
+    //res.send("Response!");
+    
+},
+(req,res,next)=>{
+    console.log("middleware 2");
+    //res.send("Response 2!!");
+    next();
+},
+(req,res,next)=>{
+    console.log("middleware 3");
+    //res.send("Response 3!!");
+    next();
+},
+(req,res,next)=>{
+    console.log("middleware 4");
+    //res.send("Response 4!!");
+    next();
+},
+(req,res,next)=>{
+    console.log("middleware 5");
+    res.send("Response 5!!");
+}
+);
 
 app.listen(3000,()=>{
     console.log("server is listening on port 3000");
