@@ -62,18 +62,28 @@ const express=require("express");
 
 const app=express();
 
-const {adminAuth}=require("./middlewares/auth.js");
+app.use("/",(err,req,res,next)=>{
+    if(err){
+        res.status(500).send("something went wrong");
+    }
+});
 
-app.use("/admin",adminAuth);
 
+app.get("/getUserData",(req,res)=>{
+    try{
+    throw new Error("abcd");
+    res.send("user sent data");}
+    catch(err){
+        res.status(500).send("Some error contact support team");
+    }
 
-app.get("/admin/getAllData",(req,res)=>{
-    res.send("All data is sent");
-})
-
-app.get("/admin/deleteAllData",(req,res)=>{
-    res.send("All data is deleted");
-})
+});
+/*app.use("/",(err,req,res,next)=>{
+    if(err){
+        res.status(500).send("something went wrong");
+    }
+});
+*/
 
 app.listen(3000,()=>{
     console.log("server is listening on port 3000");
