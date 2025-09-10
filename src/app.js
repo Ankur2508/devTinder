@@ -22,7 +22,7 @@ app.listen(3000,()=>{
 });
 */
 
-const express=require("express");
+/*const express=require("express");
 
 const app=express();
 
@@ -53,6 +53,27 @@ app.use("/user",
     res.send("Response 5!!");
 }
 );
+
+app.listen(3000,()=>{
+    console.log("server is listening on port 3000");
+});*/
+
+const express=require("express");
+
+const app=express();
+
+const {adminAuth}=require("./middlewares/auth.js");
+
+app.use("/admin",adminAuth);
+
+
+app.get("/admin/getAllData",(req,res)=>{
+    res.send("All data is sent");
+})
+
+app.get("/admin/deleteAllData",(req,res)=>{
+    res.send("All data is deleted");
+})
 
 app.listen(3000,()=>{
     console.log("server is listening on port 3000");
