@@ -70,9 +70,11 @@ app.use("/",(err,req,res,next)=>{
 
 
 app.get("/getUserData",(req,res)=>{
-    try{
-    throw new Error("abcd");
-    res.send("user sent data");}
+    try
+    {
+        throw new Error("abcd");
+        res.send("user sent data");
+    }
     catch(err){
         res.status(500).send("Some error contact support team");
     }
