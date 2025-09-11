@@ -2,14 +2,7 @@ const mongoose=require("mongoose");
 
 const connectDB=async()=>{
     await mongoose.connect(
-        "mongodb+srv://namastedev:%h0zoUOJTXB2VyOQX.rsc501x.mongodb.net/HelloWorld"
+        "mongodb+srv://namastedev:%h0zoUOJTXB2VyOQX@namastenode.rsc501x.mongodb.net/devTinder"
     );
 };
-
-connectDB()
-    .then(()=>{
-        console.log("database is connected");
-})
-.catch((error)=>{
-    console.log("database is not connected");
-});
+module.exports=connectDB
