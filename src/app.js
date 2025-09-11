@@ -94,23 +94,45 @@ app.listen(3000,()=>{
 const express=require("express");
 const connectDB=require("./config/database");
 const app= express();
+const User=require("./models/user");
+
+app.use(express.json());
 
 app.post("/signup",async(req,res)=>{
     //Creating a new instance of user model
-    const user=new user({
-        firstname:"Ankur",
-        lastname:"Sangwan",
-        age:22,
-        email:"abdcsfhf@gmail.com"
-    });
+    const user=new User(req.body);
+
     try{
     await user.save();
     res.send("user added successfully");
 }
     catch(err){
-        res.status(400).send("Error adding user");
+        res.status(400).send("Error adding user: " + err.message);
     }
 });
+//user by email
+app.get("/user",async(req,res)=>{
+    const userEmail=req.body.email;
+    try{
+        const user=await User.find({email:userEmail});
+        res.send(user);
+    }
+    catch(err){
+        res.status(400).send("Error fetching user: " + err.message);
+    }
+});
+//
+app.get("/feed",async(req,res)=>{
+    try{
+        const user=await User.find();
+        res.send(user);
+    }
+    catch(err){
+        res.status(400).send("Error fetching feed: " + err.message);
+    }
+});
+
+
 connectDB()
     .then(()=>{
         console.log("database is established");
