@@ -92,11 +92,30 @@ app.listen(3000,()=>{
 });*/
 
 const express=require("express");
+const connectDB=require("./config/database");
 const app= express();
 
-require("./config/database");
-
-
-app.listen (3000,()=>{
-    console.log("server is listening on port 3000");
+app.post("/signup",async(req,res)=>{
+    //Creating a new instance of user model
+    const user=new User(  {  
+        firstname:"Ankur",
+        lastname:"Sangwan",
+        age:22,
+        email:"abdcsfhf@gmail.com"
+    });
+    await user.save();
+    res.send("user added successfully");
 });
+
+
+
+connectDB()
+    .then(()=>{
+        console.log("database is established");
+        app.listen(3000,()=>{
+            console.log("server is listening on port 3000");
+        });
+    })
+    .catch((err)=>{
+        console.error("database is not established");
+    });
