@@ -121,7 +121,7 @@ app.get("/user",async(req,res)=>{
         res.status(400).send("Error fetching user: " + err.message);
     }
 });
-//
+//all users fetch from feed
 app.get("/feed",async(req,res)=>{
     try{
         const user=await User.find();
@@ -129,6 +129,17 @@ app.get("/feed",async(req,res)=>{
     }
     catch(err){
         res.status(400).send("Error fetching feed: " + err.message);
+    }
+});
+
+app.get("/hello",async(req,res)=>{
+    const userId=req.query.id;
+    try{
+        const user=await User.findOne({id:userId});
+        res.send(user);
+    }
+    catch(err){
+        res.status(400).send("error fectching user id")
     }
 });
 
