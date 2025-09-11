@@ -58,7 +58,7 @@ app.listen(3000,()=>{
     console.log("server is listening on port 3000");
 });*/
 
-const express=require("express");
+/*const express=require("express");
 
 const app=express();
 
@@ -80,13 +80,23 @@ app.get("/getUserData",(req,res)=>{
     }
 
 });
-/*app.use("/",(err,req,res,next)=>{
+app.use("/",(err,req,res,next)=>{
     if(err){
         res.status(500).send("something went wrong");
     }
 });
-*/
+
 
 app.listen(3000,()=>{
+    console.log("server is listening on port 3000");
+});*/
+
+const express=require("express");
+const app= express();
+
+require("./config/database");
+
+
+app.listen (3000,()=>{
     console.log("server is listening on port 3000");
 });

@@ -2,7 +2,7 @@ const mongoose=require("mongoose");
 
 const connectDB=async()=>{
     await mongoose.connect(
-        "mongodb+srv://Ankur:Ankursangwan@namastenode.rsc501x.mongodb.net/"
+        "mongodb+srv://namastedev:%h0zoUOJTXB2VyOQX.rsc501x.mongodb.net/"
     );
 };
 
