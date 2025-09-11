@@ -97,18 +97,20 @@ const app= express();
 
 app.post("/signup",async(req,res)=>{
     //Creating a new instance of user model
-    const user=new User(  {  
+    const user=new user({
         firstname:"Ankur",
         lastname:"Sangwan",
         age:22,
         email:"abdcsfhf@gmail.com"
     });
+    try{
     await user.save();
     res.send("user added successfully");
+}
+    catch(err){
+        res.status(400).send("Error adding user");
+    }
 });
-
-
-
 connectDB()
     .then(()=>{
         console.log("database is established");
