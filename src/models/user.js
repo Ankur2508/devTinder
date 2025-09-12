@@ -57,10 +57,8 @@ const UserSchema=new mongoose.Schema(
         updatedAt: {
             type: Date,
             default: Date.now
-        }
+        },
     }
-
-});
-
+}, {timestamps:true});
 const User=mongoose.model("User",UserSchema);
 module.exports=User;

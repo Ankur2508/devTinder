@@ -155,17 +155,27 @@ app.delete("/user",async(req,res)=>{
 });
 
 app.patch("/user",async(req,res)=>{
-    const userId=req.body.userId;
+    const id=req.body.id;
     const data=req.body;
-    console.log(data);
     try{
-        const user =await User.findByIdAndUpdate(userId,data,{
+        const ALLOWED_UPDATE=["firstname","age","gender"];
+        const isUpdateAllowed=Object.keys(data).every((k)=>
+            ALLOWED_UPDATE.includes(k)
+    );
+        if(!isUpdateAllowed){
+            throw new Error("invalid updates");
+        }
+        if(data?.skills.length>10){ 
+            throw new Error("skills length is more than 10");
+        }
+        const user =await User.findByIdAndUpdate(id,data,{
             returnDocument:"after",
             runValidators:true,
         });
         res.send("user data updated successfully");
     }
     catch(err){
+        console.error("error updating user data",err);
         res.status(400).send("error updating user data"+err.message);
     }
 })
