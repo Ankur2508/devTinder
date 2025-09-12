@@ -133,7 +133,7 @@ app.get("/feed",async(req,res)=>{
 });
 
 app.get("/hello",async(req,res)=>{
-    const userId=req.query.id;
+    const userId=req.body.id;
     try{
         const user=await User.findOne({id:userId});
         res.send(user);
@@ -143,7 +143,30 @@ app.get("/hello",async(req,res)=>{
     }
 });
 
+app.delete("/user",async(req,res)=>{
+    const userId=req.body.userId;
+    try{
+        const user=await User.findByIdAndDelete(userId);
+        res.send("user deleted successfully");
+    }
+    catch(err){
+        res.status(400).send("error decting user id");
+    }
+});
 
+app.patch("/user",async(req,res)=>{
+    const userId=req.body.userid;
+    const data=req.body;
+    console.log(data);
+    try{
+        const user =await User.findByIdAndUpdate(userId,data,{
+            returnDocument:"after"});
+        res.send("user data updated successfully");
+    }
+    catch(err){
+        res.status(400).send("error updating user data");
+    }
+})
 connectDB()
     .then(()=>{
         console.log("database is established");
