@@ -155,16 +155,18 @@ app.delete("/user",async(req,res)=>{
 });
 
 app.patch("/user",async(req,res)=>{
-    const userId=req.body.userid;
+    const userId=req.body.userId;
     const data=req.body;
     console.log(data);
     try{
         const user =await User.findByIdAndUpdate(userId,data,{
-            returnDocument:"after"});
+            returnDocument:"after",
+            runValidators:true,
+        });
         res.send("user data updated successfully");
     }
     catch(err){
-        res.status(400).send("error updating user data");
+        res.status(400).send("error updating user data"+err.message);
     }
 })
 connectDB()
