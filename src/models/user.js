@@ -1,4 +1,6 @@
 const mongoose=require("mongoose");
+const validator=require("validator");
+
 const UserSchema=new mongoose.Schema(
     {
     firstname:{
@@ -23,11 +25,19 @@ const UserSchema=new mongoose.Schema(
         maxlength:30,
         lowercase:true,
         unique:true,
-        trim:true
+        trim:true,
+        validate(value){
+            if(!validator.isEmail(value))
+                throw new Error("email is not valid");
+        },
     },
     password:{
         type:String,
         minlength:6,
+        validate(value){
+            if(!validator.isStrongPassword(value))
+                throw new Error("password is not strong enough");
+        },
     },
     gender:{
         type:String,
@@ -39,7 +49,11 @@ const UserSchema=new mongoose.Schema(
     },
     photoUrl:{
         type:String,
-        default:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+        default:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+        validate(value){
+            if(!validator.isURL(value))
+                throw new Error("photoUrl is not valid");
+        }
     },
     bio:{
         type:String,
