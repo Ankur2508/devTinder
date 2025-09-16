@@ -97,8 +97,12 @@ const app= express();
 const User=require("./models/user");
 const {validatesignupdata}=require("./utils/validators");
 const bcrypt=require("bcrypt");
+const cookieParser=require("cookie-parser");
+const jwt=require("jsonwebtoken");
+const { userAuth } = require("./middlewares/auth");
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signup",async(req,res)=>{
     //Creating a new instance of user model
@@ -130,6 +134,8 @@ app.post("/login",async(req,res)=>{
         }
         const isPasswordValid= await bcrypt.compare(password,user.password);
         if(isPasswordValid){
+            const token=jwt.sign({_Id:user._id},"Ankur@2003");
+            res.cookie("token",token);
             res.send("user logged successfully");
         }
         else{
@@ -139,6 +145,19 @@ app.post("/login",async(req,res)=>{
     catch(err){
         res.status(400).send("Error:"+err.message);
     }
+})
+app.get("/profile",userAuth,async(req,res)=>{
+    try{
+        const user=req.user;
+        res.send(user);
+    }catch(err){
+        res.status(401).send("err:"+err.message);
+    }
+})
+
+app.post("/sendconnectionrequest",userAuth,async(req,res)=>{
+    const user=req.user;
+    console.log("sending connection request");
 })
 //user by email
 app.get("/user",async(req,res)=>{
@@ -209,6 +228,7 @@ app.patch("/user/:userId", async (req, res) => {
     {
     res.status(400).send("UPDATE FAILED:" + err.message);
     }
+    res.send(user.firstname+" sent the connect request");
 });
 connectDB()
     .then(()=>{

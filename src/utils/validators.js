@@ -10,4 +10,6 @@ const validatesignupdata=(req)=>{
         throw new Error("password is not strong");
     }
 }
-module.exports={validatesignupdata}
+module.exports={
+    validatesignupdata,
+}
