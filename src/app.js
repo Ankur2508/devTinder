@@ -132,10 +132,12 @@ app.post("/login",async(req,res)=>{
         if(!user){
             throw new Error("email id is not valid");
         }
-        const isPasswordValid= await bcrypt.compare(password,user.password);
+        const isPasswordValid= await user.validatePassword(password);
         if(isPasswordValid){
-            const token=jwt.sign({_Id:user._id},"Ankur@2003");
-            res.cookie("token",token);
+            const token=await user.getJWT();
+            res.cookie("token",token);{
+                expires:new Date(Date.now()+8*3600000)
+            };
             res.send("user logged successfully");
         }
         else{
